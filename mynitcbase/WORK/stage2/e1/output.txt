@@ -6,7 +6,6 @@ Relation: RELATIONCAT
   FirstBlock: NUM
   LastBlock: NUM
   #Slots: NUM
-  * Visting Block No. 6
 
 Relation: ATTRIBUTECAT
   * Visting Block No. 5
@@ -16,7 +15,6 @@ Relation: ATTRIBUTECAT
   PrimaryFlag: NUM
   RootBlock: NUM
   Offset: NUM
-  * Visting Block No. 6
 
 Relation: Students
   * Visting Block No. 5
@@ -24,24 +22,4 @@ Relation: Students
   Name: STR
   Marks: NUM
   Class: STR
-  * Visting Block No. 6
-
-Relation: Events
-  * Visting Block No. 5
-  Id: NUM
-  Title: STR
-  Location: STR
-  * Visting Block No. 6
-
-Relation: Locations
-  * Visting Block No. 5
-  Name: STR
-  * Visting Block No. 6
-  Capacity: NUM
-
-Relation: Participants
-  * Visting Block No. 5
-  * Visting Block No. 6
-  RegNo: NUM
-  Event: STR
 

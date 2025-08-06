@@ -42,7 +42,18 @@ OpenRelTable::OpenRelTable(){
   //set the value at RelCacheTable::relCache[ATTRCAT_RELID]
   RelCacheTable::relCache[ATTRCAT_RELID] = (struct RelCacheEntry*)malloc(sizeof(RelCacheEntry));
   *(RelCacheTable::relCache[ATTRCAT_RELID]) = relCacheEntry;
+  
+  /**** setting up Students relation in the Relation Cache Table ****/ 
+  //setup the relation cache entry for the students relation similarly from the record at slot 2 
+  relCatBlock.getRecord(relCatRecord,2);
 
+  RelCacheTable::recordToRelCatEntry(relCatRecord,&(relCacheEntry.relCatEntry));
+  relCacheEntry.recId.block=RELCAT_BLOCK;
+  relCacheEntry.recId.slot=2;
+
+  //set the value at RelCacheTable::relCache[2]
+  RelCacheTable::relCache[2] = (RelCacheEntry*)malloc(sizeof(RelCacheEntry));
+  *(RelCacheTable::relCache[2])=relCacheEntry;
   /********** Setting up Attribute cache entries ***********/ 
   // ( we need to populate attribute cache with entries for the relation catalog  and attribute catalog )
   
@@ -91,13 +102,31 @@ OpenRelTable::OpenRelTable(){
   }
   // set the value at AttrCacheTable::attrCache[ATTRCAT_RELID]
   AttrCacheTable::attrCache[ATTRCAT_RELID] = head;
+  /**** setting up Student Relation in the Attribute Cache Table ****/ 
+  //set up the attributes of the attribute cache similarly 
+  //read slots 12-15 from attrCatBlock and initialize recId appropriately
+  head=(AttrCacheEntry*)malloc(sizeof(AttrCacheEntry));
+  curr=head;
+  for(int i=12;i<16;i++){
+    attrCatBlock.getRecord(attrCatRecord,i);
+    AttrCacheTable::recordToAttrCatEntry(attrCatRecord,&(curr->attrCatEntry));
+    curr->recId.block=ATTRCAT_BLOCK;
+    curr->recId.slot=i;
+    if(i!=15){
+      curr->next=(AttrCacheEntry*)malloc(sizeof(AttrCacheEntry));
+      curr = curr->next;
+    }
+    else curr->next=nullptr;
+  }
+  //set the value at attrcachetable::attrcache[2]
+  AttrCacheTable::attrCache[2]=head;
 }
 
 OpenRelTable::~OpenRelTable(){
   // free all the memory that you allocated in the constructor 
   free(RelCacheTable::relCache[RELCAT_RELID]);
   free(RelCacheTable::relCache[ATTRCAT_RELID]);
-
+  free(RelCacheTable::relCache[2]);
   //RELCAT_RELID
   AttrCacheEntry* curr = AttrCacheTable::attrCache[RELCAT_RELID];
   while(curr!= nullptr){
@@ -108,6 +137,13 @@ OpenRelTable::~OpenRelTable(){
   //ATTRCAT_RELID
   curr = AttrCacheTable::attrCache[ATTRCAT_RELID];
   while(curr!= nullptr){
+    AttrCacheEntry* temp = curr;
+    curr = curr->next;
+    free(temp);
+  }
+  //Student_RELID = 2 
+  curr = AttrCacheTable::attrCache[2];
+  while(curr!=nullptr){
     AttrCacheEntry* temp = curr;
     curr = curr->next;
     free(temp);

@@ -104,7 +104,7 @@ int main(int argc, char *argv[]) {
    *
    *      pritn("  %s: %s\n", attrName, attrType);
   */ 
-  for(int i =0;i<2;i++){
+  for(int i =0;i<3;i++){
     //i = 0,1 means RELCAT_RELID and ATTRCAT_RELID
     RelCatEntry relCatEntry;
     RelCatEntry* relCatBuf = &relCatEntry;
