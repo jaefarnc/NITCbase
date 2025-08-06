@@ -4,7 +4,7 @@ Block Number 2 has 4
 Block Number 3 has 4
 Block Number 4 has 0
 Block Number 5 has 0
-Block Number 6 has 3
+Block Number 6 has 0
 Block Number 7 has 3
 Block Number 8 has 3
 Block Number 9 has 3

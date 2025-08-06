@@ -1,0 +1,52 @@
+### Stage 0 Notes 
+
+GDB - Beej's Guide to step through the programs 
+
+### Stage 1 Notes 
+
+1. disk binary file located in the Disk/ director, disk class in Disk_Class/ directory
+2. the disk has 8912 blocks, each block has 2048 bytes
+3. BMAP tells us whether a block is free or occupied ( REC/ IND_INTERNAL/ IND_LEAF/ BMAP/UNUSED)
+4. Block 4 and 5 are used for relation catalog and attribute catalog respectively
+
+## Disk Class 
+
+1. Constructor, destructor, readBlock and writeBlock
+2. read and write are static ( accessed through the classes namespace, not by arrow notation of an object instance)
+3. only functions through which the disk can be accessed 
+4. read and write take arguments to a block pointer and the blockNumber to be written or read from, return SUCCESS or E_OUTOFBOUND  
+5. Constructor makes a temporary copy 
+. destructor updates changes made to the disk on graceful termination. neither have arguments 
+
+
+## Block and Block types ( Record Block, Internal index, leaf index, )
+
+# Record Block structure
+1. Header 32 bytes, slotmap based on how many slots are there, and then slots where teh actual records are 
+2. header: Block type, pblock(-1), lblock, rblock,#entries #attr, #slots, future use 
+3. 32 + L + L*(16*K, k = number of attributes) <= 2048
+4. Maximum number of attributes can be 125, Maximum number of slots can be 118
+Recbuffer class is used to access a record block
+headinfo to store the headers
+
+
+## Internal Index Block Structure 
+1. B+ Tree data structre for indexing records in a relation 
+2. two types of nodes (internal, leaf)
+3. each internal index block stores a maximum of 100 key values, so 101 child pointers ( right child of one value is the same as the left child of the next value ) ( 4 bytes for pointer, 16 bytes for attribute value )
+4. Header: block type, parent , lblock and rblock have no signficance, number of entires, number of attributes, number of slots
+5. header of the block is stored in headinfo. attributes in attribute class which is a union of a string and an integer, both 16 bytes
+indinternal class 
+and 
+struct internal entry
+
+##Leaf Index Block Structure 
+1. stores actual indices for the records in a relation 
+2. index is a 3-tuple ( attribute value, block number, slot number, unused)
+3. header: block type, pblock, lblock, rblock, number of entires, number of attributes, nmber of slots( attributes and number of slots have no meaning ) reserved for fture use 
+4. indleaf class and struct index for each entry is used to modify
+
+## catalog structures 
+
+1. relation catalog 
+2. attribute catalog
